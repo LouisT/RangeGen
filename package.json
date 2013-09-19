@@ -1,0 +1,30 @@
+{
+    "name": "rangegen",
+    "version": "0.1",
+    "homepage": "https://github.com/LouisT/RangeGen",
+    "author": {
+        "name": "Louis T.",
+        "email": "louist@ltdev.im",
+        "url": "http://ltdev.im/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/LouisT/RangeGen.git"
+    },
+    "licenses": [
+        {
+          "type": "unlicensed",
+          "url": "http://unlicense.org/"
+        }
+    ],
+    "keywords": [
+        "range",
+        "numbers",
+        "letters",
+        "increment",
+        "decrement"
+    ],
+    "description": "Generate a range between two numbers or letters. Examples: 1-100, a-z, A-Z, a-zz or even A-ZZZZZ.",
+    "engine": "node => 0.6",
+    "main": "index.js"
+}
