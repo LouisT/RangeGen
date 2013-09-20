@@ -1,6 +1,6 @@
 {
     "name": "rangegen",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "homepage": "https://github.com/LouisT/RangeGen",
     "author": {
         "name": "Louis T.",
@@ -22,7 +22,8 @@
         "numbers",
         "letters",
         "increment",
-        "decrement"
+        "decrement",
+        "iterator"
     ],
     "description": "Generate a range between two numbers or letters. Examples: 1-100, a-z, A-Z, a-zz or even A-ZZZZZ.",
     "engine": "node => 0.6",
