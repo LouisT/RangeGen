@@ -1,4 +1,4 @@
-RangeGen (v0.1)
+RangeGen (v0.1.1)
 ======
 
 Install: npm install rangegen

@@ -23,15 +23,16 @@
                  return RangeGen.handleError({name:"InvalidTo",message:"\"to\" must be a letter!"},error);
               };
            };
-           var direction = !(from>to);
-           while ((direction?to>=from:to<=from)) {
-                 if (lcase == undefined) {
-                    str = from;
-                  } else {
-                    str = RangeGen.enc(from,lcase);
-                 };
-                 range.push(str);
-                 from += (direction?step:-step);
+           var from = Number(from),
+               to = Number(to),
+               direction = !(from>to),
+               incr = (direction?step:-step),
+               start = (direction?from:to),
+               end = (direction?to:from),
+               loops = ~~((end-start)/step+2);
+           while (--loops) {
+               range.push((lcase==undefined?from:RangeGen.enc(from,lcase)));
+               from += incr;
            };
            return range;
    };
@@ -45,7 +46,7 @@
    };
    RangeGen.dec = function (str) {
             var num = 0;
-            for (var i = 0; i != str.length; ++i) {
+            for (var i = 0, l = str.length; i != l; ++i) {
                  num = num*26+(str.charCodeAt(i)|0x20)-96;
             };
             return num-1;
