@@ -40,7 +40,7 @@
             return Number(RangeGen.dec(input));
    };
    RangeGen.enc = function (num,lcase) {
-            if (!lcase) {
+            if (lcase == null) {
                return Number(num);
             };
             var str = "";
