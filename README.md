@@ -1,4 +1,4 @@
-RangeGen (v0.2.0)
+RangeGen (v0.2.1)
 ======
 
 Install: npm install rangegen
@@ -10,6 +10,7 @@ However, if you make something interesting, I would like to check it out.
 Information:
 ------
 Generate a range between two numbers or letters. Examples: 1-100, a-z, A-Z, a-zz or even A-ZZZZZ.
+Example: [http://louist.github.io/RangeGen/example.html](http://louist.github.io/RangeGen/example.html "Title")
 
 Usage:
 -------

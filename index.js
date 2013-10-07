@@ -15,7 +15,9 @@
                 range.push(RangeGen.enc(calc["from"],calc["lcase"]));
                 calc["from"] += calc["incr"];
             };
-            return range;
+            // Return an error if no range is made.
+            // This should NOT happen, but error if it does!
+            return (!!(range.length)?range:RangeGen.handleError(RangeGen.Errors("NotGenerated"),error));
    };
    RangeGen.validate = function (to, from) {
             if ((/^([a-z]+|-?[0-9]+)$/i.test(from) && /^([a-z]+|-?[0-9]+)$/i.test(to))) {
@@ -38,8 +40,8 @@
             return Number(RangeGen.dec(input));
    };
    RangeGen.enc = function (num,lcase) {
-            if (lcase==null) {
-               return num;
+            if (!lcase) {
+               return Number(num);
             };
             var str = "";
             while (num >= 0) {
@@ -88,7 +90,7 @@
                       return this;
                 },
                 hasNext: function () {
-                      return (this.loops>0?true:false);
+                      return !!(this.loops>0);
                 },
                 next: function () {
                       if (this.hasNext()) {
@@ -115,6 +117,7 @@
    };
    RangeGen.Errors = function (name) {
             var Errors = {
+                "NotGenerated": {name:"NotGenerated",message:"Failed to generate a valid range!"},
                 "InvalidInput": {name:"InvalidInput",message:"\"from\" and \"to\" must be letters or numbers only!"},
                 "InvalidFrom": {name:"InvalidFrom",message:"\"from\" must be a letter!"},
                 "InvalidTo": {name:"InvalidTo",message:"\"to\" must be a letter!"},
