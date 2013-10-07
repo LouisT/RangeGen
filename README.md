@@ -132,40 +132,42 @@ try {
 <title>RangeGen test</title>
 <script src="./rangegen.js"></script>
 <script>
-try {
-   var a = RangeGen("a","z");
-   alert("[a-z] "+a.join(",")+"\n");
-   var b = RangeGen("z","a");
-   alert("[z-a] "+b.join(",")+"\n");
-   var c = RangeGen("A","ZZ",10);
-   alert("[A-ZZ,10] "+c.join(",")+"\n");
-   var d = RangeGen("ZZ","A",10);
-   alert("[ZZ-A,10] "+d.join(",")+"\n");
-   var e = RangeGen(0,100,10);
-   alert("[0-100,10] "+e.join(",")+"\n");
-   var f = RangeGen(100,0,10);
-   alert("[100-0,10] "+f.join(",")+"\n");
- } catch (e) {
-   alert(e);
-};
 window.onload = function () {
      try {
+        var a = RangeGen("a","z");
+        output("[a-z] "+a.join(",")+"\n");
+        var b = RangeGen("z","a");
+        output("[z-a] "+b.join(",")+"\n");
+        var c = RangeGen("A","ZZ",10);
+        output("[A-ZZ,10] "+c.join(",")+"\n");
+        var d = RangeGen("ZZ","A",10);
+        output("[ZZ-A,10] "+d.join(",")+"\n");
+        var e = RangeGen(0,100,10);
+        output("[0-100,10] "+e.join(",")+"\n");
+        var f = RangeGen(100,0,10);
+        output("[100-0,10] "+f.join(",")+"\n");
+      } catch (e) {
+        output(e);
+     };
+     try {
         var iterator = RangeGen.iter(-30,30,5,true);
-        alert("Iterations: "+iterator.length);
+        output("<br />Iterations: "+iterator.length);
         var range = [];
         while (iterator.hasNext()) {
               range.push(iterator.next());
         };
-        document.getElementById('iter').innerHTML = range.join(',');
+        output(range.join(','));
       } catch (e) {
-        document.getElementById('iter').innerHTML = e;
+        output(e);
      };
+};
+function output (x) {
+         document.getElementById("output").innerHTML += x+"<br />";
 };
 </script>
 </head>
 <body>
-<div id="iter">
-</div>
+<div id="output"></div>
 </body>
 </html>
 ```
