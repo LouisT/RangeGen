@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Rangegen by LouisT</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Rangegen</h1>
+        <h2>Generate a range between two numbers or letters. Examples: 1-100, a-z, A-Z, a-zz or even A-ZZZZZ.</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/LouisT/RangeGen/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/LouisT/RangeGen/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/LouisT/RangeGen" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a name="rangegen-v021" class="anchor" href="#rangegen-v021"><span class="octicon octicon-link"></span></a>RangeGen (v0.2.1)</h1>
+
+<p>Install: npm install rangegen</p>
+
+<p>This project is <a href="http://unlicense.org/" title="Title">Unlicensed</a>.
+In other words, I don't care what you do with it.
+However, if you make something interesting, I would like to check it out.</p>
+
+<h2>
+<a name="information" class="anchor" href="#information"><span class="octicon octicon-link"></span></a>Information:</h2>
+
+<p>Generate a range between two numbers or letters. Examples: 1-100, a-z, A-Z, a-zz or even A-ZZZZZ.
+Example: <a href="http://louist.github.io/RangeGen/example.html" title="Title">http://louist.github.io/RangeGen/example.html</a></p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage:</h2>
+
+<pre><code>*WARNING* Running range on a big letter gap causes MANY loops!
+          For instance, a-zzzzz creates an array with 12,356,630
+          indexes and does 73,645,526 while and for loops!
+
+-- Array generator (See "examples.js" for usage) --
+var array = RangeGen(&lt;from&gt;,&lt;to&gt;,[&lt;step&gt;[,&lt;exceptions&gt;]]);
+
+    From         - The letter or number to start the range at. (numbers/letters)
+    To           - The letter or number to end on/near. (numbers/letters)
+    Step*        - The amount to increment or decrement by. Default, 1. (true/false, number)
+    exceptions*  - Throw error messages. Default, return an empty array. (true/false);
+       * Optional.
+
+-- Iterators (See "examples2.js" for usage) --
+var iterator = RangeGen.iterator(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;[,&lt;exceptions&gt;]]);
+               RangeGen.iter(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;[,&lt;exceptions&gt;]])
+
+    hasNext()    - Returns true if the iteration has more elements.
+    next()       - Returns the next element in the iteration, or false if `exceptions` is not set.
+                   Otherwise throws a `NoSuchElement` exception.
+    length       - The total number of iterations.
+</code></pre>
+
+<h2>
+<a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples:</h2>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">RangeGen</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'rangegen'</span><span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+   <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"z"</span><span class="p">);</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[a-z] "</span><span class="o">+</span><span class="nx">a</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"z"</span><span class="p">,</span><span class="s2">"a"</span><span class="p">);</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[z-a] "</span><span class="o">+</span><span class="nx">b</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"A"</span><span class="p">,</span><span class="s2">"ZZ"</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[A-ZZ,10] "</span><span class="o">+</span><span class="nx">c</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"ZZ"</span><span class="p">,</span><span class="s2">"A"</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[ZZ-A,10] "</span><span class="o">+</span><span class="nx">d</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">e</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[0-100,10] "</span><span class="o">+</span><span class="nx">e</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[100-0,10] "</span><span class="o">+</span><span class="nx">f</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+ <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n--- Throw errors! ---"</span><span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+   <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
+ <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[a-100] "</span><span class="o">+</span><span class="nx">e</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="k">try</span> <span class="p">{</span>
+   <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="s2">"z"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
+ <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[100-a] "</span><span class="o">+</span><span class="nx">e</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="k">try</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"@"</span><span class="p">,</span><span class="s2">"!"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="kc">true</span><span class="p">));</span>
+ <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[@-!] "</span><span class="o">+</span><span class="nx">e</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="k">try</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"!"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="kc">true</span><span class="p">));</span>
+ <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[a-!] "</span><span class="o">+</span><span class="nx">e</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n--- Return empty arrays! ---"</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"100"</span><span class="p">));</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"100"</span><span class="p">,</span><span class="s2">"z"</span><span class="p">));</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"@"</span><span class="p">,</span><span class="s2">"!"</span><span class="p">));</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"!"</span><span class="p">));</span>
+</pre></div>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">RangeGen</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'rangegen'</span><span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+   <span class="kd">var</span> <span class="nx">iterator</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">.</span><span class="nx">iter</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Iterations: "</span><span class="o">+</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">range</span> <span class="o">=</span> <span class="p">[];</span>
+   <span class="k">while</span> <span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">hasNext</span><span class="p">())</span> <span class="p">{</span>
+         <span class="nx">range</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span>
+   <span class="p">};</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">range</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">','</span><span class="p">));</span>
+ <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n--- Throw errors! ---"</span><span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"- Invalid next() call. -"</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">iterator</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">.</span><span class="nx">iterator</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Iterations: "</span><span class="o">+</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">range</span> <span class="o">=</span> <span class="p">[];</span>
+   <span class="k">while</span> <span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">hasNext</span><span class="p">())</span> <span class="p">{</span>
+         <span class="nx">range</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span>
+   <span class="p">};</span>
+   <span class="nx">iterator</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+ <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="k">try</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n- Inalid range. [a-30] -"</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">iterator</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">.</span><span class="nx">iterator</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
+ <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n--- Return false! ---"</span><span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+   <span class="kd">var</span> <span class="nx">iterator</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">.</span><span class="nx">iterator</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+   <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">iterator</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"`iterator` is false!"</span><span class="p">);</span>
+   <span class="p">}</span>
+ <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+<span class="p">};</span>
+</pre></div>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>RangeGen test<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"./rangegen.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script&gt;</span>
+<span class="k">try</span> <span class="p">{</span>
+   <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"z"</span><span class="p">);</span>
+   <span class="nx">alert</span><span class="p">(</span><span class="s2">"[a-z] "</span><span class="o">+</span><span class="nx">a</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"z"</span><span class="p">,</span><span class="s2">"a"</span><span class="p">);</span>
+   <span class="nx">alert</span><span class="p">(</span><span class="s2">"[z-a] "</span><span class="o">+</span><span class="nx">b</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"A"</span><span class="p">,</span><span class="s2">"ZZ"</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+   <span class="nx">alert</span><span class="p">(</span><span class="s2">"[A-ZZ,10] "</span><span class="o">+</span><span class="nx">c</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"ZZ"</span><span class="p">,</span><span class="s2">"A"</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+   <span class="nx">alert</span><span class="p">(</span><span class="s2">"[ZZ-A,10] "</span><span class="o">+</span><span class="nx">d</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">e</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+   <span class="nx">alert</span><span class="p">(</span><span class="s2">"[0-100,10] "</span><span class="o">+</span><span class="nx">e</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+   <span class="nx">alert</span><span class="p">(</span><span class="s2">"[100-0,10] "</span><span class="o">+</span><span class="nx">f</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+ <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">alert</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+     <span class="k">try</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">iterator</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">.</span><span class="nx">iter</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="s2">"Iterations: "</span><span class="o">+</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">range</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="k">while</span> <span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">hasNext</span><span class="p">())</span> <span class="p">{</span>
+              <span class="nx">range</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span>
+        <span class="p">};</span>
+        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'iter'</span><span class="p">).</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">range</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">','</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'iter'</span><span class="p">).</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">e</span><span class="p">;</span>
+     <span class="p">};</span>
+<span class="p">};</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"iter"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+      </section>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-23469607-5");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
