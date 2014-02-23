@@ -10,17 +10,20 @@
             if (invalid) {
                return RangeGen.handleError(invalid,error);
             };
-            var calc = RangeGen.calculate(from,to,RangeGen.getStep(step),2);
+            var calc = RangeGen.calculate(from,to,step,2);
             while (--calc["loops"]) {
                 range.push(RangeGen.enc(calc["from"],calc["lcase"]));
                 calc["from"] += calc["incr"];
+                if (calc["from"] <= 0) {
+                   break;
+                };
             };
             // Return an error if no range is made.
             // This should NOT happen, but error if it does!
             return (!!(range.length)?range:RangeGen.handleError(RangeGen.Errors("NotGenerated"),error));
    };
    RangeGen.validate = function (to, from) {
-            if ((/^([a-z]+|-?[0-9]+)$/i.test(from) && /^([a-z]+|-?[0-9]+)$/i.test(to))) {
+            if ((/^([a-z]+|[-.0-9]+)$/i.test(from) && /^([a-z]+|[-.0-9]+)$/i.test(to))) {
                if (isNaN(from) || isNaN(to)) {
                   if (!isNaN(from)) {
                      return RangeGen.Errors("InvalidFrom");
@@ -40,7 +43,7 @@
             return Number(RangeGen.dec(input));
    };
    RangeGen.enc = function (num,lcase) {
-            if (lcase==null) {
+            if (lcase == null) {
                return Number(num);
             };
             var str = "";
@@ -58,7 +61,7 @@
             return num-1;
    };
    RangeGen.getStep = function (step) {
-            return ~~(isNaN(step)||1>step?1:step);
+            return (isNaN(step)||0>=step?1:step);
    };
    RangeGen.calculate = function (from, to, step, ext) {
             var lcase = (isNaN(from)?(from==from.toUpperCase()):null),
@@ -66,7 +69,8 @@
                 to = RangeGen.getNum(to),
                 direction = !(from>to),
                 start = (direction?from:to),
-                end = (direction?to:from);
+                end = (direction?to:from),
+                step = RangeGen.getStep(step);
             return {
                 lcase: lcase,
                 from: from,
@@ -86,17 +90,17 @@
                       Object.keys(calc).map(function(key){
                           self[key] = calc[key];
                       });
-                      this.length = this.loops;
+                      this.length = this.left = this.loops;
                       return this;
                 },
                 hasNext: function () {
-                      return !!(this.loops>0);
+                      return !!(this.left>0);
                 },
                 next: function () {
                       if (this.hasNext()) {
                          var str = RangeGen.enc(this.from,this.lcase);
                          this.from += this.incr;
-                         --this.loops;
+                         --this.left;
                          return str;
                        } else {
                          return RangeGen.handleError(RangeGen.Errors("NoSuchElement"),error,true);
@@ -105,7 +109,7 @@
             };
             return (function(){
                    return Object.create(proto);
-            })().__init(from, to, RangeGen.getStep(step));
+            })().__init(from,to,step);
    }
    RangeGen.iter = RangeGen.iterator;
    RangeGen.handleError = function (obj,error,boolean) {
