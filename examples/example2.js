@@ -7,6 +7,13 @@ try {
          range.push(iterator.next());
    };
    console.log(range.join(','));
+   var iterator = RangeGen.iter(0,1,0.1,true);
+   console.log("Iterations: "+iterator.length);
+   var range = [];
+   while (iterator.hasNext()) {
+         range.push(iterator.next());
+   };
+   console.log(range.join(','));
  } catch (e) {
    console.log(e);
 };

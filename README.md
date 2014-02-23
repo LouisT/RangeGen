@@ -1,4 +1,4 @@
-RangeGen (v0.2.1)
+RangeGen (v0.2.2)
 ======
 
 Install: npm install rangegen
@@ -21,11 +21,11 @@ Usage:
     -- Array generator (See "examples.js" for usage) --
     var array = RangeGen(<from>,<to>,[<step>[,<exceptions>]]);
 
-        From         - The letter or number to start the range at. (numbers/letters)
-        To           - The letter or number to end on/near. (numbers/letters)
-        Step*        - The amount to increment or decrement by. Default, 1. (true/false, number)
-        exceptions*  - Throw error messages. Default, return an empty array. (true/false);
-           * Optional.
+        From         - The letter or number to start the range at. (Number, Float, Letters)
+        To           - The letter or number to end on/near. (Number, Float, Letters)
+        Step*        - The amount to increment or decrement by. Default, 1. (Boolean, Number, Float)
+        Exceptions*  - Throw error messages. Default, return an empty array. (Boolean);
+                     * Optional.
 
     -- Iterators (See "examples2.js" for usage) --
     var iterator = RangeGen.iterator(<from>,<to>[,<step>[,<exceptions>]]);
@@ -35,6 +35,7 @@ Usage:
         next()       - Returns the next element in the iteration, or false if `exceptions` is not set.
                        Otherwise throws a `NoSuchElement` exception.
         length       - The total number of iterations.
+        left         - The number of iterations left.
 
 
 Examples:
@@ -54,6 +55,10 @@ try {
    console.log("[0-100,10] "+e.join(",")+"\n");
    var f = RangeGen(100,0,10);
    console.log("[100-0,10] "+f.join(",")+"\n");
+   var g = RangeGen(0,1,0.1);
+   console.log("[0-1,0.1] "+g.join(",")+"\n");
+   var h = RangeGen(1,0,0.1);
+   console.log("[1-0,0.1] "+h.join(",")+"\n");
  } catch (e) {
    console.log(e);
 };
@@ -88,6 +93,13 @@ console.log(RangeGen("a","!"));
 var RangeGen = require('rangegen');
 try {
    var iterator = RangeGen.iter(-30,30,1,true);
+   console.log("Iterations: "+iterator.length);
+   var range = [];
+   while (iterator.hasNext()) {
+         range.push(iterator.next());
+   };
+   console.log(range.join(','));
+   var iterator = RangeGen.iter(0,1,0.1,true);
    console.log("Iterations: "+iterator.length);
    var range = [];
    while (iterator.hasNext()) {
@@ -146,6 +158,10 @@ window.onload = function () {
         output("[0-100,10] "+e.join(",")+"\n");
         var f = RangeGen(100,0,10);
         output("[100-0,10] "+f.join(",")+"\n");
+        var g = RangeGen(0,1,0.1);
+        output("[0-1,0.1] "+g.join(",")+"\n");
+        var h = RangeGen(1,0,0.1);
+        output("[1-0,0.1] "+h.join(",")+"\n");
       } catch (e) {
         output(e);
      };

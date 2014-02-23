@@ -12,6 +12,10 @@ try {
    console.log("[0-100,10] "+e.join(",")+"\n");
    var f = RangeGen(100,0,10);
    console.log("[100-0,10] "+f.join(",")+"\n");
+   var g = RangeGen(0,1,0.1);
+   console.log("[0-1,0.1] "+g.join(",")+"\n");
+   var h = RangeGen(1,0,0.1);
+   console.log("[1-0,0.1] "+h.join(",")+"\n");
  } catch (e) {
    console.log(e);
 };
