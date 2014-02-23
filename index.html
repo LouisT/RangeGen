@@ -29,7 +29,7 @@
     <div class="container">
       <section id="main_content">
         <h1>
-<a name="rangegen-v021" class="anchor" href="#rangegen-v021"><span class="octicon octicon-link"></span></a>RangeGen (v0.2.1)</h1>
+<a name="rangegen-v022" class="anchor" href="#rangegen-v022"><span class="octicon octicon-link"></span></a>RangeGen (v0.2.2)</h1>
 
 <p>Install: npm install rangegen</p>
 
@@ -53,11 +53,11 @@ Example: <a href="http://louist.github.io/RangeGen/example.html" title="Title">h
 -- Array generator (See "examples.js" for usage) --
 var array = RangeGen(&lt;from&gt;,&lt;to&gt;,[&lt;step&gt;[,&lt;exceptions&gt;]]);
 
-    From         - The letter or number to start the range at. (numbers/letters)
-    To           - The letter or number to end on/near. (numbers/letters)
-    Step*        - The amount to increment or decrement by. Default, 1. (true/false, number)
-    exceptions*  - Throw error messages. Default, return an empty array. (true/false);
-       * Optional.
+    From         - The letter or number to start the range at. (Number, Float, Letters)
+    To           - The letter or number to end on/near. (Number, Float, Letters)
+    Step*        - The amount to increment or decrement by. Default, 1. (Boolean, Number, Float)
+    Exceptions*  - Throw error messages. Default, return an empty array. (Boolean);
+                 * Optional.
 
 -- Iterators (See "examples2.js" for usage) --
 var iterator = RangeGen.iterator(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;[,&lt;exceptions&gt;]]);
@@ -67,6 +67,7 @@ var iterator = RangeGen.iterator(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;[,&lt;exce
     next()       - Returns the next element in the iteration, or false if `exceptions` is not set.
                    Otherwise throws a `NoSuchElement` exception.
     length       - The total number of iterations.
+    left         - The number of iterations left.
 </code></pre>
 
 <h2>
@@ -86,6 +87,10 @@ var iterator = RangeGen.iterator(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;[,&lt;exce
    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[0-100,10] "</span><span class="o">+</span><span class="nx">e</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
    <span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[100-0,10] "</span><span class="o">+</span><span class="nx">f</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">g</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">);</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[0-1,0.1] "</span><span class="o">+</span><span class="nx">g</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">h</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">);</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[1-0,0.1] "</span><span class="o">+</span><span class="nx">h</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
 <span class="p">};</span>
@@ -120,6 +125,13 @@ var iterator = RangeGen.iterator(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;[,&lt;exce
 <div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">RangeGen</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'rangegen'</span><span class="p">);</span>
 <span class="k">try</span> <span class="p">{</span>
    <span class="kd">var</span> <span class="nx">iterator</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">.</span><span class="nx">iter</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Iterations: "</span><span class="o">+</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+   <span class="kd">var</span> <span class="nx">range</span> <span class="o">=</span> <span class="p">[];</span>
+   <span class="k">while</span> <span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">hasNext</span><span class="p">())</span> <span class="p">{</span>
+         <span class="nx">range</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span>
+   <span class="p">};</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">range</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">','</span><span class="p">));</span>
+   <span class="kd">var</span> <span class="nx">iterator</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">.</span><span class="nx">iter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Iterations: "</span><span class="o">+</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
    <span class="kd">var</span> <span class="nx">range</span> <span class="o">=</span> <span class="p">[];</span>
    <span class="k">while</span> <span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">hasNext</span><span class="p">())</span> <span class="p">{</span>
@@ -178,6 +190,10 @@ var iterator = RangeGen.iterator(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;[,&lt;exce
         <span class="nx">output</span><span class="p">(</span><span class="s2">"[0-100,10] "</span><span class="o">+</span><span class="nx">e</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
         <span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
         <span class="nx">output</span><span class="p">(</span><span class="s2">"[100-0,10] "</span><span class="o">+</span><span class="nx">f</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">g</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">);</span>
+        <span class="nx">output</span><span class="p">(</span><span class="s2">"[0-1,0.1] "</span><span class="o">+</span><span class="nx">g</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">h</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">);</span>
+        <span class="nx">output</span><span class="p">(</span><span class="s2">"[1-0,0.1] "</span><span class="o">+</span><span class="nx">h</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
       <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">output</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
      <span class="p">};</span>
@@ -203,6 +219,8 @@ var iterator = RangeGen.iterator(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;[,&lt;exce
 <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
 </pre></div>
+
+<p><a href="https://bitdeli.com/free" title="Bitdeli Badge"><img src="https://d2weczhvl823v0.cloudfront.net/LouisT/rangegen/trend.png" alt="Bitdeli Badge"></a></p>
       </section>
     </div>
 
