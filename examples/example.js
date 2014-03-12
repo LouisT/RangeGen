@@ -15,7 +15,10 @@ try {
    var g = RangeGen(0,1,0.1);
    console.log("[0-1,0.1] "+g.join(",")+"\n");
    var h = RangeGen(1,0,0.1);
-   console.log("[1-0,0.1] "+h.join(",")+"\n");
+   console.log("[1-0,0.1] "+h.join(',')+"\n");
+   console.log("\n --- Floats with `map(function(x) { return x.toPrecision(2); })` ---");
+   console.log("[0-1,0.1] "+g.map(function(x) { return x.toPrecision(2); }).join(",")+"\n");
+   console.log("[1-0,0.1] "+h.map(function(x) { return x.toPrecision(2); }).join(',')+"\n");
  } catch (e) {
    console.log(e);
 };

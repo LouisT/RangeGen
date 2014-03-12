@@ -1,4 +1,4 @@
-RangeGen (v0.2.2)
+RangeGen (v0.2.3)
 ======
 
 Install: npm install rangegen
@@ -19,12 +19,13 @@ Usage:
               indexes and does 73,645,526 while and for loops!
 
     -- Array generator (See "examples.js" for usage) --
-    var array = RangeGen(<from>,<to>,[<step>[,<exceptions>]]);
+    var array = RangeGen(<from>,<to>,[<step>[,<exceptions>[,<CB/filter>]]]);
 
         From         - The letter or number to start the range at. (Number, Float, Letters)
         To           - The letter or number to end on/near. (Number, Float, Letters)
         Step*        - The amount to increment or decrement by. Default, 1. (Boolean, Number, Float)
         Exceptions*  - Throw error messages. Default, return an empty array. (Boolean);
+        CB/filter*   - Use a callback or filter results. (see example4.js)
                      * Optional.
 
     -- Iterators (See "examples2.js" for usage) --
@@ -59,6 +60,9 @@ try {
    console.log("[0-1,0.1] "+g.join(",")+"\n");
    var h = RangeGen(1,0,0.1);
    console.log("[1-0,0.1] "+h.join(",")+"\n");
+   console.log("\n --- Floats with `map(function(x) { return x.toPrecision(2); })` ---");
+   console.log("[0-1,0.1] "+g.map(function(x) { return x.toPrecision(2); }).join(",")+"\n");
+   console.log("[1-0,0.1] "+h.map(function(x) { return x.toPrecision(2); }).join(',')+"\n");
  } catch (e) {
    console.log(e);
 };
@@ -123,7 +127,7 @@ try {
    console.log(e);
 };
 try {
-   console.log("\n- Inalid range. [a-30] -");
+   console.log("\n- Invalid range. [a-30] -");
    var iterator = RangeGen.iterator("a",30,1,true);
  } catch (e) {
    console.log(e);
@@ -162,6 +166,9 @@ window.onload = function () {
         output("[0-1,0.1] "+g.join(",")+"\n");
         var h = RangeGen(1,0,0.1);
         output("[1-0,0.1] "+h.join(",")+"\n");
+        output("<br /> --- Floats with `map(function(x) { return x.toPrecision(2); })` ---");
+        output("[0-1,0.1] "+g.map(function(x) { return x.toPrecision(2); }).join(",")+"\n");
+        output("[1-0,0.1] "+h.map(function(x) { return x.toPrecision(2); }).join(',')+"\n");
       } catch (e) {
         output(e);
      };
@@ -187,7 +194,16 @@ function output (x) {
 </body>
 </html>
 ```
-
+```javascript
+var range = require('../');
+try {
+   console.log("--- As a callback ---");
+   range(1,10,3,null,function (x) { x.forEach(function (x) { console.log(x); }); });
+   console.log("\n--- As a filter ---");
+   console.log(range(1,100,3,null,function (x) { return x.filter(function(y) { return y%4===0; }); }).join(','));
+ } catch (e) {
+   console.log(e);
+};
+```
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/LouisT/rangegen/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-

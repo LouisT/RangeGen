@@ -21,6 +21,9 @@ window.onload = function () {
         output("[0-1,0.1] "+g.join(",")+"\n");
         var h = RangeGen(1,0,0.1);
         output("[1-0,0.1] "+h.join(",")+"\n");
+        output("<br /> --- Floats with `map(function(x) { return x.toPrecision(2); })` ---");
+        output("[0-1,0.1] "+g.map(function(x) { return x.toPrecision(2); }).join(",")+"\n");
+        output("[1-0,0.1] "+h.map(function(x) { return x.toPrecision(2); }).join(',')+"\n");
       } catch (e) {
         output(e);
      };

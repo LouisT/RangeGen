@@ -4,23 +4,24 @@
   https://github.com/LouisT/RangeGen/
 */
 (function(Setup){
-   var RangeGen = function (from, to, step, error) {
-            var range = [];
-            var invalid = RangeGen.validate(to,from);
+   var RangeGen = function (from, to, step, error, cb) {
+            var range = [],
+                invalid = RangeGen.validate(to,from),
+                cb = cb||function(x){return x};
             if (invalid) {
-               return RangeGen.handleError(invalid,error);
+               return cb(RangeGen.handleError(invalid,error));
             };
             var calc = RangeGen.calculate(from,to,step,2);
             while (--calc["loops"]) {
                 range.push(RangeGen.enc(calc["from"],calc["lcase"]));
                 calc["from"] += calc["incr"];
-                if (calc["from"] <= 0) {
+                if (calc["from"] < 0) {
                    break;
                 };
             };
             // Return an error if no range is made.
             // This should NOT happen, but error if it does!
-            return (!!(range.length)?range:RangeGen.handleError(RangeGen.Errors("NotGenerated"),error));
+            return cb(!!(range.length)?range:RangeGen.handleError(RangeGen.Errors("NotGenerated"),error));
    };
    RangeGen.validate = function (to, from) {
             if ((/^([a-z]+|[-.0-9]+)$/i.test(from) && /^([a-z]+|[-.0-9]+)$/i.test(to))) {
@@ -75,7 +76,7 @@
                 lcase: lcase,
                 from: from,
                 incr: (direction?step:-step),
-                loops: ~~((end-start)/step+ext),
+                loops: Math.floor((end-start)/step+ext),
             };
    };
    RangeGen.iterator = function (from, to, step, error) {

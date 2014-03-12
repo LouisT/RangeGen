@@ -31,7 +31,7 @@ try {
    console.log(e);
 };
 try {
-   console.log("\n- Inalid range. [a-30] -");
+   console.log("\n- Invalid range. [a-30] -");
    var iterator = RangeGen.iterator("a",30,1,true);
  } catch (e) {
    console.log(e);
