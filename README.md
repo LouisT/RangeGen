@@ -205,5 +205,3 @@ try {
    console.log(e);
 };
 ```
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/LouisT/rangegen/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
