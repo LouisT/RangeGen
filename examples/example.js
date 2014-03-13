@@ -8,7 +8,7 @@ try {
    console.log("[A-ZZ,10] "+c.join(",")+"\n");
    var d = RangeGen("ZZ","A",10);
    console.log("[ZZ-A,10] "+d.join(",")+"\n");
-   var e = RangeGen(0,100,10);
+   var e = RangeGen(0,100,10,1);
    console.log("[0-100,10] "+e.join(",")+"\n");
    var f = RangeGen(100,0,10);
    console.log("[100-0,10] "+f.join(",")+"\n");

@@ -1,4 +1,4 @@
-RangeGen (v0.2.3)
+RangeGen (v0.2.4)
 ======
 
 Install: npm install rangegen
@@ -24,8 +24,42 @@ Usage:
         From         - The letter or number to start the range at. (Number, Float, Letters)
         To           - The letter or number to end on/near. (Number, Float, Letters)
         Step*        - The amount to increment or decrement by. Default, 1. (Boolean, Number, Float)
-        Exceptions*  - Throw error messages. Default, return an empty array. (Boolean);
+        Exceptions*  - Throw error messages. Default, return an empty array. (Boolean)
         CB/filter*   - Use a callback or filter results. (see example4.js)
+                     * Optional.
+
+    -- Check to see if a number or letter is in a range. (Case sensitive, "AB" is not in "a..az". See "examples4.js" for usage) --
+    RangeGen.inRange(<str>,<from>,<to>[,<exceptions>[,<callback>]]);
+
+        Str          - The number(s) or letter(s) to validate. (Number, Float, Letters)
+        From         - The letter or number to start the range at. (Number, Float, Letters)
+        To           - The letter or number to end on/near. (Number, Float, Letters)
+        Exceptions*  - Throw error messages. Default, return false. (Boolean)
+        Callback*    - Use a callback instead of return.
+                     * Optional.
+
+        NOTE: I need to figure out how to implement "step" for this.
+
+    -- Get the Nth value in a given range. (See "examples4.js" for usage) --
+    RangeGen.byIndex(<num>,<from>,<to>,[<step>[,<exceptions>[,<callback>]]]);
+
+        Num          - The index number within the range. (Number)
+        From         - The letter or number to start the range at. (Number, Float, Letters)
+        To           - The letter or number to end on/near. (Number, Float, Letters)
+        Step*        - The amount to increment or decrement by. Default, 1. (Boolean, Number, Float)
+        Exceptions*  - Throw error messages. Default, return false. (Boolean)
+        Callback*    - Use a callback instead of return.
+                     * Optional.
+
+    -- Get the index by value in a given range. (See "examples4.js" for usage) --
+    RangeGen.byValue(<str>,<from>,<to>,[<step>[,<exceptions>[,<callback>]]]);
+
+        Str          - The value within the range. (Number, Float, Letters)
+        From         - The letter or number to start the range at. (Number, Float, Letters)
+        To           - The letter or number to end on/near. (Number, Float, Letters)
+        Step*        - The amount to increment or decrement by. Default, 1. (Boolean, Number, Float)
+        Exceptions*  - Throw error messages. Default, return false. (Boolean)
+        Callback*    - Use a callback instead of return.
                      * Optional.
 
     -- Iterators (See "examples2.js" for usage) --
@@ -198,12 +232,25 @@ function output (x) {
 var range = require('../');
 try {
    console.log("--- As a callback ---");
-   range(1,10,3,null,function (x) { x.forEach(function (x) { console.log(x); }); });
+   range(1,10,3,null,function (x) { console.log(x.join(',')) });
    console.log("\n--- As a filter ---");
    console.log(range(1,100,3,null,function (x) { return x.filter(function(y) { return y%4===0; }); }).join(','));
+   console.log("\n-- inRange examples --");
+   console.log("[c in a..z] "+range.inRange('c','a','z'));
+   console.log("[aa in a..z] "+range.inRange('aa','a','z'));
+   console.log("[ab in a..az] "+range.inRange('ab','a','az'));
+   console.log("[ab in a..zz, 5] "+range.inRange('ab','a','az',5));
+   console.log("[cjsr in a..zzzzzzz] "+range.inRange('cjsr','a','zzzzzzz'));
+   console.log("[zzzzzzz in a..zzzzz] "+range.inRange('zzzzzzz','a','zzzzz'));
+   console.log("\n-- byIndex examples --");
+   console.log("[10 in a..z] "+range.byIndex(10,"a","z"));
+   console.log("[100 in a..zz] "+range.byIndex(100,"a","zz"));
+   console.log("[26 in a..z] "+range.byIndex(26,"a","z"));
+   console.log("\n-- byValue examples --");
+   console.log("[g in a..z] "+range.byValue("g","a","z"));
+   console.log("[g in a..z, 2] "+range.byValue("g","a","z",2));
+   console.log("[g in a..z, 5] "+range.byValue("g","a","z",5));
  } catch (e) {
    console.log(e);
 };
 ```
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/LouisT/rangegen/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
