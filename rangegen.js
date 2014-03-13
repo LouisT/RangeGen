@@ -6,7 +6,7 @@
 (function(Setup){
    var RangeGen = function (from, to, step, error, cb) {
             var range = [],
-                invalid = RangeGen.validate(to,from),
+                invalid = RangeGen.validate(from,to),
                 cb = cb||function(x){return x};
             if (invalid) {
                return cb(RangeGen.handleError(invalid,error));
@@ -21,16 +21,22 @@
             };
             // Return an error if no range is made.
             // This should NOT happen, but error if it does!
-            return cb(!!(range.length)?range:RangeGen.handleError(RangeGen.Errors("NotGenerated"),error));
+            return cb((!!(range.length)?range:RangeGen.handleError(RangeGen.Errors("NotGenerated"),error)));
    };
-   RangeGen.validate = function (to, from) {
-            if ((/^([a-z]+|[-.0-9]+)$/i.test(from) && /^([a-z]+|[-.0-9]+)$/i.test(to))) {
-               if (isNaN(from) || isNaN(to)) {
+   RangeGen.validate = function (from, to, str) {
+            var isValid = function (str) {
+                return (typeof(str) !== "undefined" && str !== null && /^[a-z]+$|^[+-]?(\d*\.)?\d+$/i.test(str));
+            };
+            if ((isValid(from) && isValid(to) && (!str || isValid(str)))) {
+               if ((isNaN(from) || isNaN(to)) || (str && isNaN(str))) {
                   if (!isNaN(from)) {
                      return RangeGen.Errors("InvalidFrom");
                   };
                   if (!isNaN(to)) {
                      return RangeGen.Errors("InvalidTo");
+                  };
+                  if (str && !isNaN(str)) {
+                     return RangeGen.Errors("InvalidStr");
                   };
                };
                return false;
@@ -43,7 +49,32 @@
             };
             return Number(RangeGen.dec(input));
    };
-   RangeGen.enc = function (num,lcase) {
+   RangeGen.byIndex = function (num, from, to, step, error, cb) {
+            var invalid = RangeGen.validate(from,to),
+                cb = cb||function(x){return x};
+            if (invalid) {
+               return cb(RangeGen.handleError(invalid,error));
+            };
+            var calc = RangeGen.calculate(from,to,step,2),
+                added = calc["from"]+(calc["incr"]*num),
+                ret = (added<=calc["to"]?RangeGen.enc(added,calc["lcase"]):false);
+            return cb((ret?ret:RangeGen.handleError(RangeGen.Errors("NotGenerated"),error,1)));
+   };
+   RangeGen.byValue = function (str, from, to, step, error, cb) {
+            var invalid = RangeGen.validate(from,to,str),
+                cb = cb||function(x){return x};
+            if (invalid) {
+               return cb(RangeGen.handleError(invalid,error,1));
+            };
+            var step = RangeGen.getStep(step),
+                index = Math.floor(RangeGen.getNum(str)/step);
+            return cb((RangeGen.byIndex(index, from, to, step, error) === str?index:false));
+   };
+   RangeGen.inRange = function (str, from, to, step, error, cb) {
+            var cb = cb||function(x){return x};
+            return cb(!!RangeGen.byValue(str,from,to,step,error));
+   };
+   RangeGen.enc = function (num, lcase) {
             if (lcase == null) {
                return Number(num);
             };
@@ -75,22 +106,24 @@
             return {
                 lcase: lcase,
                 from: from,
+                to: to,
                 incr: (direction?step:-step),
                 loops: Math.floor((end-start)/step+ext),
             };
    };
    RangeGen.iterator = function (from, to, step, error) {
-            var invalid = RangeGen.validate(to,from);
+            var invalid = RangeGen.validate(from,to);
             if (invalid) {
                return RangeGen.handleError(invalid,error,true);
             };
             var proto = {
-                __init: function (from, to, step) {
+                __init: function (from, to, step, error) {
                       var calc = RangeGen.calculate(from,to,step,1),
                           self = this;
                       Object.keys(calc).map(function(key){
                           self[key] = calc[key];
                       });
+                      this.error = error;
                       this.length = this.left = this.loops;
                       return this;
                 },
@@ -104,16 +137,16 @@
                          --this.left;
                          return str;
                        } else {
-                         return RangeGen.handleError(RangeGen.Errors("NoSuchElement"),error,true);
+                         return RangeGen.handleError(RangeGen.Errors("NoSuchElement"),this.error,true);
                       }
                 },
             };
             return (function(){
                    return Object.create(proto);
-            })().__init(from,to,step);
-   }
+            })().__init(from,to,step,error);
+   };
    RangeGen.iter = RangeGen.iterator;
-   RangeGen.handleError = function (obj,error,boolean) {
+   RangeGen.handleError = function (obj, error, boolean) {
             if (!error) {
                return (!boolean?[]:false);
              } else {
@@ -126,6 +159,7 @@
                 "InvalidInput": {name:"InvalidInput",message:"\"from\" and \"to\" must be letters or numbers only!"},
                 "InvalidFrom": {name:"InvalidFrom",message:"\"from\" must be a letter!"},
                 "InvalidTo": {name:"InvalidTo",message:"\"to\" must be a letter!"},
+                "InvalidStr": {name:"InvalidStr",message:"\"str\" must be a letter!"},
                 "NoSuchElement": {name:"NoSuchElement",message:"No more elements left in the iterator!"},
                 "Unknown": {name:"UnknownError",message:"An unknown error has occurred!"}
             };
@@ -139,4 +173,4 @@
    RangeGen.Error.prototype = new Error();
    RangeGen.Error.prototype.constructor = RangeGen.Error;
    Setup(RangeGen);
-})((typeof exports!=='undefined'?function(fn){module.exports=fn;}:function(fn){this['RangeGen']=fn;}));
+})((typeof exports!=="undefined"?function(fn){module.exports=fn;}:function(fn){this["RangeGen"]=fn;}));
