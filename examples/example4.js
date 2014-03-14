@@ -19,6 +19,13 @@ try {
    console.log("[g in a..z] "+range.byValue("g","a","z"));
    console.log("[g in a..z, 2] "+range.byValue("g","a","z",2));
    console.log("[g in a..z, 5] "+range.byValue("g","a","z",5));
+   console.log("\n-- String prototype examples --");
+   range.addPro(); // Inject range();
+   console.log("[\"a..z\".range()] "+"a..z".range());
+   console.log("[\"z..a\".range()] "+"z..a".range());
+   console.log("[\"a..zz\".range(40)] "+"a..zz".range(40));
+   console.log("[\"0..100\".range(5)] "+"0..100".range(5));
+   console.log("[\"-30..30\".range()] "+"-30..30".range(5));
  } catch (e) {
    console.log(e);
 };

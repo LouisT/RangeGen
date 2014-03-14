@@ -1,4 +1,4 @@
-RangeGen (v0.2.4)
+RangeGen (v0.2.5)
 ======
 
 Install: npm install rangegen
@@ -61,9 +61,22 @@ Usage:
         Callback*    - Use a callback instead of return.
                      * Optional.
 
+    -- Inject "range()" into the String prototype. (See "examples4.js" for usage) --
+    RangeGen.addPrototype();
+    RangeGen.addPro();
+
+        Usage: "FROM..TO".range([<step>[,<exceptions>[,<callback>]]]);
+
+        From         - The letter or number to start the range at. (Number, Float, Letters)
+        To           - The letter or number to end on/near. (Number, Float, Letters)
+        Step*        - The amount to increment or decrement by. Default, 1. (Boolean, Number, Float)
+        Exceptions*  - Throw error messages. Default, return false. (Boolean)
+        Callback*    - Use a callback instead of return.
+                     * Optional.
+
     -- Iterators (See "examples2.js" for usage) --
     var iterator = RangeGen.iterator(<from>,<to>[,<step>[,<exceptions>]]);
-                   RangeGen.iter(<from>,<to>[,<step>[,<exceptions>]])
+                   RangeGen.iter(<from>,<to>[,<step>[,<exceptions>]]);
 
         hasNext()    - Returns true if the iteration has more elements.
         next()       - Returns the next element in the iteration, or false if `exceptions` is not set.
@@ -249,6 +262,13 @@ try {
    console.log("[g in a..z] "+range.byValue("g","a","z"));
    console.log("[g in a..z, 2] "+range.byValue("g","a","z",2));
    console.log("[g in a..z, 5] "+range.byValue("g","a","z",5));
+   console.log("\n-- String prototype examples --");
+   range.addPro(); // Inject range();
+   console.log("[\"a..z\".range()] "+"a..z".range());
+   console.log("[\"z..a\".range()] "+"z..a".range());
+   console.log("[\"a..zz\".range(40)] "+"a..zz".range(40));
+   console.log("[\"0..100\".range(5)] "+"0..100".range(5));
+   console.log("[\"-30..30\".range()] "+"-30..30".range(5));
  } catch (e) {
    console.log(e);
 };
