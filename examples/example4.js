@@ -25,7 +25,7 @@ try {
    console.log("[\"z..a\".range()] "+"z..a".range());
    console.log("[\"a..zz\".range(40)] "+"a..zz".range(40));
    console.log("[\"0..100\".range(5)] "+"0..100".range(5));
-   console.log("[\"-30..30\".range()] "+"-30..30".range(5));
+   console.log("[\"-30..30\".range(5)] "+"-30..30".range(5));
  } catch (e) {
    console.log(e);
 };
