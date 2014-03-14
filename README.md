@@ -29,16 +29,15 @@ Usage:
                      * Optional.
 
     -- Check to see if a number or letter is in a range. (Case sensitive, "AB" is not in "a..az". See "examples4.js" for usage) --
-    RangeGen.inRange(<str>,<from>,<to>[,<exceptions>[,<callback>]]);
+    RangeGen.inRange(<str>,<from>,<to>[,<step>[,<exceptions>[,<callback>]]]);
 
         Str          - The number(s) or letter(s) to validate. (Number, Float, Letters)
         From         - The letter or number to start the range at. (Number, Float, Letters)
         To           - The letter or number to end on/near. (Number, Float, Letters)
+        Step*        - The amount to increment or decrement by. Default, 1. (Boolean, Number, Float)
         Exceptions*  - Throw error messages. Default, return false. (Boolean)
         Callback*    - Use a callback instead of return.
                      * Optional.
-
-        NOTE: I need to figure out how to implement "step" for this.
 
     -- Get the Nth value in a given range. (See "examples4.js" for usage) --
     RangeGen.byIndex(<num>,<from>,<to>,[<step>[,<exceptions>[,<callback>]]]);
