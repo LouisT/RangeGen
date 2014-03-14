@@ -29,7 +29,7 @@
     <div class="container">
       <section id="main_content">
         <h1>
-<a name="rangegen-v024" class="anchor" href="#rangegen-v024"><span class="octicon octicon-link"></span></a>RangeGen (v0.2.4)</h1>
+<a name="rangegen-v025" class="anchor" href="#rangegen-v025"><span class="octicon octicon-link"></span></a>RangeGen (v0.2.5)</h1>
 
 <p>Install: npm install rangegen</p>
 
@@ -61,16 +61,15 @@ var array = RangeGen(&lt;from&gt;,&lt;to&gt;,[&lt;step&gt;[,&lt;exceptions&gt;[,
                  * Optional.
 
 -- Check to see if a number or letter is in a range. (Case sensitive, "AB" is not in "a..az". See "examples4.js" for usage) --
-RangeGen.inRange(&lt;str&gt;,&lt;from&gt;,&lt;to&gt;[,&lt;exceptions&gt;[,&lt;callback&gt;]]);
+RangeGen.inRange(&lt;str&gt;,&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;[,&lt;exceptions&gt;[,&lt;callback&gt;]]]);
 
     Str          - The number(s) or letter(s) to validate. (Number, Float, Letters)
     From         - The letter or number to start the range at. (Number, Float, Letters)
     To           - The letter or number to end on/near. (Number, Float, Letters)
+    Step*        - The amount to increment or decrement by. Default, 1. (Boolean, Number, Float)
     Exceptions*  - Throw error messages. Default, return false. (Boolean)
     Callback*    - Use a callback instead of return.
                  * Optional.
-
-    NOTE: I need to figure out how to implement "step" for this.
 
 -- Get the Nth value in a given range. (See "examples4.js" for usage) --
 RangeGen.byIndex(&lt;num&gt;,&lt;from&gt;,&lt;to&gt;,[&lt;step&gt;[,&lt;exceptions&gt;[,&lt;callback&gt;]]]);
@@ -94,9 +93,22 @@ RangeGen.byValue(&lt;str&gt;,&lt;from&gt;,&lt;to&gt;,[&lt;step&gt;[,&lt;exceptio
     Callback*    - Use a callback instead of return.
                  * Optional.
 
+-- Inject "range()" into the String prototype. (See "examples4.js" for usage) --
+RangeGen.addPrototype();
+RangeGen.addPro();
+
+    Usage: "FROM..TO".range([&lt;step&gt;[,&lt;exceptions&gt;[,&lt;callback&gt;]]]);
+
+    From         - The letter or number to start the range at. (Number, Float, Letters)
+    To           - The letter or number to end on/near. (Number, Float, Letters)
+    Step*        - The amount to increment or decrement by. Default, 1. (Boolean, Number, Float)
+    Exceptions*  - Throw error messages. Default, return false. (Boolean)
+    Callback*    - Use a callback instead of return.
+                 * Optional.
+
 -- Iterators (See "examples2.js" for usage) --
 var iterator = RangeGen.iterator(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;[,&lt;exceptions&gt;]]);
-               RangeGen.iter(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;[,&lt;exceptions&gt;]])
+               RangeGen.iter(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;[,&lt;exceptions&gt;]]);
 
     hasNext()    - Returns true if the iteration has more elements.
     next()       - Returns the next element in the iteration, or false if `exceptions` is not set.
@@ -282,6 +294,13 @@ var iterator = RangeGen.iterator(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;[,&lt;exce
    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[g in a..z] "</span><span class="o">+</span><span class="nx">range</span><span class="p">.</span><span class="nx">byValue</span><span class="p">(</span><span class="s2">"g"</span><span class="p">,</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"z"</span><span class="p">));</span>
    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[g in a..z, 2] "</span><span class="o">+</span><span class="nx">range</span><span class="p">.</span><span class="nx">byValue</span><span class="p">(</span><span class="s2">"g"</span><span class="p">,</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"z"</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[g in a..z, 5] "</span><span class="o">+</span><span class="nx">range</span><span class="p">.</span><span class="nx">byValue</span><span class="p">(</span><span class="s2">"g"</span><span class="p">,</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"z"</span><span class="p">,</span><span class="mi">5</span><span class="p">));</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n-- String prototype examples --"</span><span class="p">);</span>
+   <span class="nx">range</span><span class="p">.</span><span class="nx">addPro</span><span class="p">();</span> <span class="c1">// Inject range();</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[\"a..z\".range()] "</span><span class="o">+</span><span class="s2">"a..z"</span><span class="p">.</span><span class="nx">range</span><span class="p">());</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[\"z..a\".range()] "</span><span class="o">+</span><span class="s2">"z..a"</span><span class="p">.</span><span class="nx">range</span><span class="p">());</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[\"a..zz\".range(40)] "</span><span class="o">+</span><span class="s2">"a..zz"</span><span class="p">.</span><span class="nx">range</span><span class="p">(</span><span class="mi">40</span><span class="p">));</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[\"0..100\".range(5)] "</span><span class="o">+</span><span class="s2">"0..100"</span><span class="p">.</span><span class="nx">range</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[\"-30..30\".range()] "</span><span class="o">+</span><span class="s2">"-30..30"</span><span class="p">.</span><span class="nx">range</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span>
  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
 <span class="p">};</span>
