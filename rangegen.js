@@ -15,9 +15,6 @@
             while (--calc["loops"]) {
                 range.push(RangeGen.enc(calc["from"],calc["lcase"]));
                 calc["from"] += calc["incr"];
-                if (calc["from"] < 0) {
-                   break;
-                };
             };
             // Return an error if no range is made.
             // This should NOT happen, but error if it does!
@@ -111,7 +108,21 @@
                 loops: Math.floor((end-start)/step+ext),
             };
    };
-   RangeGen.iterator = function (from, to, step, error) {
+   RangeGen.addPro = RangeGen.addPrototype = function () {
+            String.prototype.range = function (step, error, cb) {
+                   var res = this.match(/^([a-z]+|[+-]?(?:\d*\.)?\d+)\.{2}([a-z]+|[+-]?(?:\d*\.)?\d+)$/),
+                       cb = cb||function(x){return x};
+                   if (res) {
+                      var invalid = RangeGen.validate(res[1],res[2]);
+                      if (invalid) {
+                         return cb(RangeGen.handleError(invalid,error));
+                      };
+                      return RangeGen(res[1],res[2],step,error,cb);
+                   };
+                   return cb(RangeGen.handleError(RangeGen.Errors("InvalidString"),error));
+            };
+   };
+   RangeGen.iter = RangeGen.iterator = function (from, to, step, error) {
             var invalid = RangeGen.validate(from,to);
             if (invalid) {
                return RangeGen.handleError(invalid,error,true);
@@ -145,7 +156,6 @@
                    return Object.create(proto);
             })().__init(from,to,step,error);
    };
-   RangeGen.iter = RangeGen.iterator;
    RangeGen.handleError = function (obj, error, boolean) {
             if (!error) {
                return (!boolean?[]:false);
@@ -157,6 +167,7 @@
             var Errors = {
                 "NotGenerated": {name:"NotGenerated",message:"Failed to generate a valid range!"},
                 "InvalidInput": {name:"InvalidInput",message:"\"from\" and \"to\" must be letters or numbers only!"},
+                "InvalidString": {name:"InvalidString",message:"Invalid string. Must be in the form of \"FROM..TO\"!"},
                 "InvalidFrom": {name:"InvalidFrom",message:"\"from\" must be a letter!"},
                 "InvalidTo": {name:"InvalidTo",message:"\"to\" must be a letter!"},
                 "InvalidStr": {name:"InvalidStr",message:"\"str\" must be a letter!"},
