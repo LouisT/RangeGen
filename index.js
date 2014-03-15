@@ -110,7 +110,7 @@
    };
    RangeGen.addPro = RangeGen.addPrototype = function () {
             String.prototype.range = function (step, error, cb) {
-                   var res = this.match(/^([a-z]+|[+-]?(?:\d*\.)?\d+)\.{2}([a-z]+|[+-]?(?:\d*\.)?\d+)$/),
+                   var res = this.match(/^([a-z]+|[+-]?(?:\d*\.)?\d+)\.{2}([a-z]+|[+-]?(?:\d*\.)?\d+)$/i),
                        cb = cb||function(x){return x};
                    if (res) {
                       var invalid = RangeGen.validate(res[1],res[2]);
