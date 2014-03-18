@@ -29,9 +29,9 @@
     <div class="container">
       <section id="main_content">
         <h1>
-<a name="rangegen-v025" class="anchor" href="#rangegen-v025"><span class="octicon octicon-link"></span></a>RangeGen (v0.2.5)</h1>
+<a name="rangegen-v027" class="anchor" href="#rangegen-v027"><span class="octicon octicon-link"></span></a>RangeGen (v0.2.7)</h1>
 
-<p>Install: npm install rangegen</p>
+<p>Install: npm install <a href="https://www.npmjs.org/package/rangegen" title="Title">rangegen</a></p>
 
 <p>This project is <a href="http://unlicense.org/" title="Title">Unlicensed</a>.
 In other words, I don't care what you do with it.
@@ -40,8 +40,11 @@ However, if you make something interesting, I would like to check it out.</p>
 <h2>
 <a name="information" class="anchor" href="#information"><span class="octicon octicon-link"></span></a>Information:</h2>
 
-<p>Generate a range between two numbers or letters. Examples: 1-100, a-z, A-Z, a-zz or even A-ZZZZZ.
-Example: <a href="http://louist.github.io/RangeGen/example.html" title="Title">http://louist.github.io/RangeGen/example.html</a></p>
+<p>Generate a range between two numbers or letters. Examples: 1-100, a-z, A-Z, a-zz or even A-ZZZZZ.</p>
+
+<p>Online example: <a href="http://louist.github.io/RangeGen/example.html" title="Title">http://louist.github.io/RangeGen/example.html</a></p>
+
+<p>View more examples on <a href="https://github.com/LouisT/RangeGen/tree/master/examples" title="Title">GitHub</a>.</p>
 
 <h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage:</h2>
@@ -106,7 +109,18 @@ RangeGen.addPro();
     Callback*    - Use a callback instead of return.
                  * Optional.
 
--- Iterators (See "examples2.js" for usage) --
+-- Readable stream. (Node.js ONLY, See examples5.js for usage) --
+var stream = RangeGen.createReadStream(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;]);
+             RangeGen.CRS(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;]);
+
+    From         - The letter or number to start the range at. (Number, Float, Letters)
+    To           - The letter or number to end on/near. (Number, Float, Letters)
+    Step*        - The amount to increment or decrement by. Default, 1. (Boolean, Number, Float)
+
+    NOTE: If you use this outside of Node.js it will throw a "NodeOnly" error!
+          Stream API: http://nodejs.org/api/stream.html#stream_class_stream_readable
+
+-- Iterators. (See "examples2.js" for usage) --
 var iterator = RangeGen.iterator(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;[,&lt;exceptions&gt;]]);
                RangeGen.iter(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;[,&lt;exceptions&gt;]]);
 
@@ -116,195 +130,6 @@ var iterator = RangeGen.iterator(&lt;from&gt;,&lt;to&gt;[,&lt;step&gt;[,&lt;exce
     length       - The total number of iterations.
     left         - The number of iterations left.
 </code></pre>
-
-<h2>
-<a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples:</h2>
-
-<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">RangeGen</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'rangegen'</span><span class="p">);</span>
-<span class="k">try</span> <span class="p">{</span>
-   <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"z"</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[a-z] "</span><span class="o">+</span><span class="nx">a</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-   <span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"z"</span><span class="p">,</span><span class="s2">"a"</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[z-a] "</span><span class="o">+</span><span class="nx">b</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-   <span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"A"</span><span class="p">,</span><span class="s2">"ZZ"</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[A-ZZ,10] "</span><span class="o">+</span><span class="nx">c</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-   <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"ZZ"</span><span class="p">,</span><span class="s2">"A"</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[ZZ-A,10] "</span><span class="o">+</span><span class="nx">d</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-   <span class="kd">var</span> <span class="nx">e</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[0-100,10] "</span><span class="o">+</span><span class="nx">e</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-   <span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[100-0,10] "</span><span class="o">+</span><span class="nx">f</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-   <span class="kd">var</span> <span class="nx">g</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[0-1,0.1] "</span><span class="o">+</span><span class="nx">g</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-   <span class="kd">var</span> <span class="nx">h</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[1-0,0.1] "</span><span class="o">+</span><span class="nx">h</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n --- Floats with `map(function(x) { return x.toPrecision(2); })` ---"</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[0-1,0.1] "</span><span class="o">+</span><span class="nx">g</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span><span class="p">.</span><span class="nx">toPrecision</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="p">}).</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[1-0,0.1] "</span><span class="o">+</span><span class="nx">h</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span><span class="p">.</span><span class="nx">toPrecision</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="p">}).</span><span class="nx">join</span><span class="p">(</span><span class="s1">','</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
- <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
-<span class="p">};</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n--- Throw errors! ---"</span><span class="p">);</span>
-<span class="k">try</span> <span class="p">{</span>
-   <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
- <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[a-100] "</span><span class="o">+</span><span class="nx">e</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-<span class="p">};</span>
-<span class="k">try</span> <span class="p">{</span>
-   <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="s2">"z"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
- <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[100-a] "</span><span class="o">+</span><span class="nx">e</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-<span class="p">};</span>
-<span class="k">try</span> <span class="p">{</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"@"</span><span class="p">,</span><span class="s2">"!"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="kc">true</span><span class="p">));</span>
- <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[@-!] "</span><span class="o">+</span><span class="nx">e</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-<span class="p">};</span>
-<span class="k">try</span> <span class="p">{</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"!"</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="kc">true</span><span class="p">));</span>
- <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[a-!] "</span><span class="o">+</span><span class="nx">e</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-<span class="p">};</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n--- Return empty arrays! ---"</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"100"</span><span class="p">));</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"100"</span><span class="p">,</span><span class="s2">"z"</span><span class="p">));</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"@"</span><span class="p">,</span><span class="s2">"!"</span><span class="p">));</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"!"</span><span class="p">));</span>
-</pre></div>
-
-<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">RangeGen</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'rangegen'</span><span class="p">);</span>
-<span class="k">try</span> <span class="p">{</span>
-   <span class="kd">var</span> <span class="nx">iterator</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">.</span><span class="nx">iter</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Iterations: "</span><span class="o">+</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
-   <span class="kd">var</span> <span class="nx">range</span> <span class="o">=</span> <span class="p">[];</span>
-   <span class="k">while</span> <span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">hasNext</span><span class="p">())</span> <span class="p">{</span>
-         <span class="nx">range</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span>
-   <span class="p">};</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">range</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">','</span><span class="p">));</span>
-   <span class="kd">var</span> <span class="nx">iterator</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">.</span><span class="nx">iter</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Iterations: "</span><span class="o">+</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
-   <span class="kd">var</span> <span class="nx">range</span> <span class="o">=</span> <span class="p">[];</span>
-   <span class="k">while</span> <span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">hasNext</span><span class="p">())</span> <span class="p">{</span>
-         <span class="nx">range</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span>
-   <span class="p">};</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">range</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">','</span><span class="p">));</span>
- <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
-<span class="p">};</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n--- Throw errors! ---"</span><span class="p">);</span>
-<span class="k">try</span> <span class="p">{</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"- Invalid next() call. -"</span><span class="p">);</span>
-   <span class="kd">var</span> <span class="nx">iterator</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">.</span><span class="nx">iterator</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Iterations: "</span><span class="o">+</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
-   <span class="kd">var</span> <span class="nx">range</span> <span class="o">=</span> <span class="p">[];</span>
-   <span class="k">while</span> <span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">hasNext</span><span class="p">())</span> <span class="p">{</span>
-         <span class="nx">range</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span>
-   <span class="p">};</span>
-   <span class="nx">iterator</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
- <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
-<span class="p">};</span>
-<span class="k">try</span> <span class="p">{</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n- Invalid range. [a-30] -"</span><span class="p">);</span>
-   <span class="kd">var</span> <span class="nx">iterator</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">.</span><span class="nx">iterator</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
- <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
-<span class="p">};</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n--- Return false! ---"</span><span class="p">);</span>
-<span class="k">try</span> <span class="p">{</span>
-   <span class="kd">var</span> <span class="nx">iterator</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">.</span><span class="nx">iterator</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-   <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">iterator</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"`iterator` is false!"</span><span class="p">);</span>
-   <span class="p">}</span>
- <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
-<span class="p">};</span>
-</pre></div>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;html&gt;</span>
-<span class="nt">&lt;head&gt;</span>
-<span class="nt">&lt;title&gt;</span>RangeGen test<span class="nt">&lt;/title&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"./rangegen.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;script&gt;</span>
-<span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-     <span class="k">try</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"z"</span><span class="p">);</span>
-        <span class="nx">output</span><span class="p">(</span><span class="s2">"[a-z] "</span><span class="o">+</span><span class="nx">a</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-        <span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"z"</span><span class="p">,</span><span class="s2">"a"</span><span class="p">);</span>
-        <span class="nx">output</span><span class="p">(</span><span class="s2">"[z-a] "</span><span class="o">+</span><span class="nx">b</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-        <span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"A"</span><span class="p">,</span><span class="s2">"ZZ"</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
-        <span class="nx">output</span><span class="p">(</span><span class="s2">"[A-ZZ,10] "</span><span class="o">+</span><span class="nx">c</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-        <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="s2">"ZZ"</span><span class="p">,</span><span class="s2">"A"</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
-        <span class="nx">output</span><span class="p">(</span><span class="s2">"[ZZ-A,10] "</span><span class="o">+</span><span class="nx">d</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-        <span class="kd">var</span> <span class="nx">e</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
-        <span class="nx">output</span><span class="p">(</span><span class="s2">"[0-100,10] "</span><span class="o">+</span><span class="nx">e</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-        <span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
-        <span class="nx">output</span><span class="p">(</span><span class="s2">"[100-0,10] "</span><span class="o">+</span><span class="nx">f</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-        <span class="kd">var</span> <span class="nx">g</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">);</span>
-        <span class="nx">output</span><span class="p">(</span><span class="s2">"[0-1,0.1] "</span><span class="o">+</span><span class="nx">g</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-        <span class="kd">var</span> <span class="nx">h</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">);</span>
-        <span class="nx">output</span><span class="p">(</span><span class="s2">"[1-0,0.1] "</span><span class="o">+</span><span class="nx">h</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-        <span class="nx">output</span><span class="p">(</span><span class="s2">"&lt;br /&gt; --- Floats with `map(function(x) { return x.toPrecision(2); })` ---"</span><span class="p">);</span>
-        <span class="nx">output</span><span class="p">(</span><span class="s2">"[0-1,0.1] "</span><span class="o">+</span><span class="nx">g</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span><span class="p">.</span><span class="nx">toPrecision</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="p">}).</span><span class="nx">join</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-        <span class="nx">output</span><span class="p">(</span><span class="s2">"[1-0,0.1] "</span><span class="o">+</span><span class="nx">h</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span><span class="p">.</span><span class="nx">toPrecision</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="p">}).</span><span class="nx">join</span><span class="p">(</span><span class="s1">','</span><span class="p">)</span><span class="o">+</span><span class="s2">"\n"</span><span class="p">);</span>
-      <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">output</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
-     <span class="p">};</span>
-     <span class="k">try</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">iterator</span> <span class="o">=</span> <span class="nx">RangeGen</span><span class="p">.</span><span class="nx">iter</span><span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="kc">true</span><span class="p">);</span>
-        <span class="nx">output</span><span class="p">(</span><span class="s2">"&lt;br /&gt;Iterations: "</span><span class="o">+</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
-        <span class="kd">var</span> <span class="nx">range</span> <span class="o">=</span> <span class="p">[];</span>
-        <span class="k">while</span> <span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">hasNext</span><span class="p">())</span> <span class="p">{</span>
-              <span class="nx">range</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span>
-        <span class="p">};</span>
-        <span class="nx">output</span><span class="p">(</span><span class="nx">range</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">','</span><span class="p">));</span>
-      <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">output</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
-     <span class="p">};</span>
-<span class="p">};</span>
-<span class="kd">function</span> <span class="nx">output</span> <span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
-         <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"output"</span><span class="p">).</span><span class="nx">innerHTML</span> <span class="o">+=</span> <span class="nx">x</span><span class="o">+</span><span class="s2">"&lt;br /&gt;"</span><span class="p">;</span>
-<span class="p">};</span>
-<span class="nt">&lt;/script&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
-<span class="nt">&lt;body&gt;</span>
-<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"output"</span><span class="nt">&gt;&lt;/div&gt;</span>
-<span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
-</pre></div>
-
-<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">range</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'../'</span><span class="p">);</span>
-<span class="k">try</span> <span class="p">{</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"--- As a callback ---"</span><span class="p">);</span>
-   <span class="nx">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="kc">null</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">','</span><span class="p">))</span> <span class="p">});</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n--- As a filter ---"</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="kc">null</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">y</span><span class="o">%</span><span class="mi">4</span><span class="o">===</span><span class="mi">0</span><span class="p">;</span> <span class="p">});</span> <span class="p">}).</span><span class="nx">join</span><span class="p">(</span><span class="s1">','</span><span class="p">));</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n-- inRange examples --"</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[c in a..z] "</span><span class="o">+</span><span class="nx">range</span><span class="p">.</span><span class="nx">inRange</span><span class="p">(</span><span class="s1">'c'</span><span class="p">,</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'z'</span><span class="p">));</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[aa in a..z] "</span><span class="o">+</span><span class="nx">range</span><span class="p">.</span><span class="nx">inRange</span><span class="p">(</span><span class="s1">'aa'</span><span class="p">,</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'z'</span><span class="p">));</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[ab in a..az] "</span><span class="o">+</span><span class="nx">range</span><span class="p">.</span><span class="nx">inRange</span><span class="p">(</span><span class="s1">'ab'</span><span class="p">,</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'az'</span><span class="p">));</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[ab in a..zz, 5] "</span><span class="o">+</span><span class="nx">range</span><span class="p">.</span><span class="nx">inRange</span><span class="p">(</span><span class="s1">'ab'</span><span class="p">,</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'az'</span><span class="p">,</span><span class="mi">5</span><span class="p">));</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[cjsr in a..zzzzzzz] "</span><span class="o">+</span><span class="nx">range</span><span class="p">.</span><span class="nx">inRange</span><span class="p">(</span><span class="s1">'cjsr'</span><span class="p">,</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'zzzzzzz'</span><span class="p">));</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[zzzzzzz in a..zzzzz] "</span><span class="o">+</span><span class="nx">range</span><span class="p">.</span><span class="nx">inRange</span><span class="p">(</span><span class="s1">'zzzzzzz'</span><span class="p">,</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'zzzzz'</span><span class="p">));</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n-- byIndex examples --"</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[10 in a..z] "</span><span class="o">+</span><span class="nx">range</span><span class="p">.</span><span class="nx">byIndex</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"z"</span><span class="p">));</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[100 in a..zz] "</span><span class="o">+</span><span class="nx">range</span><span class="p">.</span><span class="nx">byIndex</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"zz"</span><span class="p">));</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[26 in a..z] "</span><span class="o">+</span><span class="nx">range</span><span class="p">.</span><span class="nx">byIndex</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"z"</span><span class="p">));</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n-- byValue examples --"</span><span class="p">);</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[g in a..z] "</span><span class="o">+</span><span class="nx">range</span><span class="p">.</span><span class="nx">byValue</span><span class="p">(</span><span class="s2">"g"</span><span class="p">,</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"z"</span><span class="p">));</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[g in a..z, 2] "</span><span class="o">+</span><span class="nx">range</span><span class="p">.</span><span class="nx">byValue</span><span class="p">(</span><span class="s2">"g"</span><span class="p">,</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"z"</span><span class="p">,</span><span class="mi">2</span><span class="p">));</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[g in a..z, 5] "</span><span class="o">+</span><span class="nx">range</span><span class="p">.</span><span class="nx">byValue</span><span class="p">(</span><span class="s2">"g"</span><span class="p">,</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"z"</span><span class="p">,</span><span class="mi">5</span><span class="p">));</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"\n-- String prototype examples --"</span><span class="p">);</span>
-   <span class="nx">range</span><span class="p">.</span><span class="nx">addPro</span><span class="p">();</span> <span class="c1">// Inject range();</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[\"a..z\".range()] "</span><span class="o">+</span><span class="s2">"a..z"</span><span class="p">.</span><span class="nx">range</span><span class="p">());</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[\"z..a\".range()] "</span><span class="o">+</span><span class="s2">"z..a"</span><span class="p">.</span><span class="nx">range</span><span class="p">());</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[\"a..zz\".range(40)] "</span><span class="o">+</span><span class="s2">"a..zz"</span><span class="p">.</span><span class="nx">range</span><span class="p">(</span><span class="mi">40</span><span class="p">));</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[\"0..100\".range(5)] "</span><span class="o">+</span><span class="s2">"0..100"</span><span class="p">.</span><span class="nx">range</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"[\"-30..30\".range()] "</span><span class="o">+</span><span class="s2">"-30..30"</span><span class="p">.</span><span class="nx">range</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span>
- <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
-<span class="p">};</span>
-</pre></div>
       </section>
     </div>
 
