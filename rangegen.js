@@ -110,7 +110,7 @@
    };
    RangeGen.addPro = RangeGen.addPrototype = function () {
             String.prototype.range = function (step, error, cb) {
-                   var res = this.match(/^([a-z]+|[+-]?(?:\d*\.)?\d+)\.{2}([a-z]+|[+-]?(?:\d*\.)?\d+)$/),
+                   var res = this.match(/^([a-z]+|[+-]?(?:\d*\.)?\d+)\.{2}([a-z]+|[+-]?(?:\d*\.)?\d+)$/i),
                        cb = cb||function(x){return x};
                    if (res) {
                       var invalid = RangeGen.validate(res[1],res[2]);
@@ -120,6 +120,31 @@
                       return RangeGen(res[1],res[2],step,error,cb);
                    };
                    return cb(RangeGen.handleError(RangeGen.Errors("InvalidString"),error));
+            };
+   };
+   RangeGen.CRS = RangeGen.createReadStream = function (from, to, step) {
+            if (typeof exports !== 'undefined' && this.exports !== exports) {
+               var Readable = require('stream').Readable,
+                   Stream = new Readable;
+               try {
+                   var iter = new RangeGen.iter(from, to, step, true);
+                 } catch (error) {
+                   var iter = error;
+               };
+               Stream._read = function () {
+                   if (iter.constructor === RangeGen) {
+                      if (iter.hasNext()) {
+                         this.push(String(iter.next()));
+                       } else {
+                         this.push(null);
+                      };
+                    } else {
+                      this.emit('error',iter);
+                   };
+               };
+               return Stream;
+             } else {
+               RangeGen.handleError(RangeGen.Errors("NodeOnly"),true);
             };
    };
    RangeGen.iter = RangeGen.iterator = function (from, to, step, error) {
@@ -151,6 +176,7 @@
                          return RangeGen.handleError(RangeGen.Errors("NoSuchElement"),this.error,true);
                       }
                 },
+                constructor: RangeGen,
             };
             return (function(){
                    return Object.create(proto);
@@ -172,6 +198,7 @@
                 "InvalidTo": {name:"InvalidTo",message:"\"to\" must be a letter!"},
                 "InvalidStr": {name:"InvalidStr",message:"\"str\" must be a letter!"},
                 "NoSuchElement": {name:"NoSuchElement",message:"No more elements left in the iterator!"},
+                "NodeOnly": {name:"NodeOnly",message:"This function works with node.js only!"},
                 "Unknown": {name:"UnknownError",message:"An unknown error has occurred!"}
             };
             return (Errors[name]?Errors[name]:Errors["Unknown"]);
@@ -184,4 +211,4 @@
    RangeGen.Error.prototype = new Error();
    RangeGen.Error.prototype.constructor = RangeGen.Error;
    Setup(RangeGen);
-})((typeof exports!=="undefined"?function(fn){module.exports=fn;}:function(fn){this["RangeGen"]=fn;}));
+})((typeof exports!=='undefined'&&this.exports!==exports?function(fn){module.exports=fn;}:function(fn){this["RangeGen"]=fn;}));
