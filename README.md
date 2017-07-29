@@ -1,11 +1,7 @@
-RangeGen (v0.2.7)
+RangeGen
 ======
 
 Install: npm install [rangegen](https://www.npmjs.org/package/rangegen "Title")
-
-This project is [Unlicensed](http://unlicense.org/ "Title").
-In other words, I don't care what you do with it.
-However, if you make something interesting, I would like to check it out.
 
 Information:
 ------

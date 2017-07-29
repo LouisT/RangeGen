@@ -1,6 +1,6 @@
 {
     "name": "rangegen",
-    "version": "0.2.7",
+    "version": "0.2.8",
     "homepage": "https://louist.github.io/RangeGen/",
     "author": {
         "name": "Louis T.",
@@ -11,12 +11,7 @@
         "type": "git",
         "url": "git://github.com/LouisT/RangeGen.git"
     },
-    "licenses": [
-        {
-          "type": "unlicensed",
-          "url": "http://unlicense.org/"
-        }
-    ],
+    "license": "MIT",
     "keywords": [
         "range",
         "numbers",
